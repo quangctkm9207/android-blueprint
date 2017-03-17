@@ -13,7 +13,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by Quang Nguyen on 3/17/17.
- * //TODO: Declare the role of this class/interface
+ *
  */
 
 public class BaseActivity extends AppCompatActivity {
@@ -32,9 +32,9 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Setups tool bar
      */
-    public void setUpToolbar(@NonNull Toolbar toolbar) {
+    public void setupToolbar(@NonNull Toolbar toolbar) {
         checkNotNull(toolbar);
-        setUpToolbar(toolbar);
+        setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
