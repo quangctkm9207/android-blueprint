@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.quangnguyen.androidblueprint.BaseActivity;
 import com.quangnguyen.androidblueprint.R;
+import com.quangnguyen.androidblueprint.data.source.MessageRepository;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -20,11 +21,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MainScreenActivity extends BaseActivity {
 
+    private MainScreenPresenter mPresenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen_activity);
 
-        startFragment(MainScreenFragment.newInstance(), R.id.container);
+        MainScreenFragment fragment = MainScreenFragment.newInstance();
+        startFragment(fragment, R.id.container);
+
+        // Creates the presenter
+        mPresenter = new MainScreenPresenter(MessageRepository.getInstance(), fragment);
     }
 }
