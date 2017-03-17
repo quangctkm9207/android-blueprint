@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AndroidBlueprint</string>
+    <string name="show_message">Show message</string>
+</resources>
