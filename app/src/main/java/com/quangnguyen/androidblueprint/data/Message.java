@@ -6,17 +6,17 @@ package com.quangnguyen.androidblueprint.data;
  */
 
 public class Message {
-    private String mContent;
+    private String content;
 
     public Message(String content) {
-        mContent = content;
+        this.content = content;
     }
 
     public String getContent() {
-        return mContent;
+        return content;
     }
 
     public void setContent(String content) {
-        mContent = content;
+        this.content = content;
     }
 }

@@ -14,7 +14,7 @@ import com.quangnguyen.androidblueprint.data.source.MessageRepository;
 
 public class MainScreenActivity extends BaseActivity {
 
-    private MainScreenPresenter mPresenter;
+    private MainScreenPresenter presenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +24,6 @@ public class MainScreenActivity extends BaseActivity {
         startFragment(fragment, R.id.container);
 
         // Creates the presenter
-        mPresenter = new MainScreenPresenter(MessageRepository.getInstance(), fragment);
+        presenter = new MainScreenPresenter(MessageRepository.getInstance(), fragment);
     }
 }

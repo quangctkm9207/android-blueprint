@@ -19,7 +19,7 @@ import com.quangnguyen.androidblueprint.data.Message;
 
 public class MainScreenFragment extends BaseFragment implements MainScreenContract.View {
 
-    private MainScreenContract.Presenter mPresenter;
+    private MainScreenContract.Presenter presenter;
     private TextView messageView;
     public MainScreenFragment() {
 
@@ -31,7 +31,7 @@ public class MainScreenFragment extends BaseFragment implements MainScreenContra
 
     @Override
     public void setPresenter(MainScreenContract.Presenter presenter) {
-        mPresenter = presenter;
+        this.presenter = presenter;
     }
 
     @Override
@@ -51,12 +51,11 @@ public class MainScreenFragment extends BaseFragment implements MainScreenContra
 
     private void setUpViews(View rootView) {
         messageView = (TextView) rootView.findViewById(R.id.message);
-
         Button showMessageButton = (Button) rootView.findViewById(R.id.showMessage);
         showMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.loadMessage();
+                presenter.loadMessage();
             }
         });
     }

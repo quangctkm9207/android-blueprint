@@ -35,7 +35,6 @@ public class BaseActivity extends AppCompatActivity {
     public void setupToolbar(@NonNull Toolbar toolbar) {
         checkNotNull(toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);

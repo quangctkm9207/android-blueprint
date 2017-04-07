@@ -11,13 +11,13 @@ import com.quangnguyen.androidblueprint.data.Message;
 
 public class MessageRepository implements MessageDataSource{
     // Mock data
-    private static final String DEFAULT_MESSAGE = "Hello Android Blueprint";
-    private Message mMessage;
+    private static final String DEFAULT_MESSAGE = "Hello World";
+    private Message message;
 
     private static MessageRepository INSTANCE = null;
 
     private MessageRepository() {
-        mMessage = new Message(DEFAULT_MESSAGE);
+        message = new Message(DEFAULT_MESSAGE);
     }
 
     /**
@@ -34,11 +34,11 @@ public class MessageRepository implements MessageDataSource{
 
     @Override
     public void getMessage(@NonNull LoadMessageCallback callback) {
-        callback.onMessageLoaded(mMessage);
+        callback.onMessageLoaded(message);
     }
 
     @Override
     public void saveMessage(Message message) {
-        mMessage = message;
+        this.message = message;
     }
 }

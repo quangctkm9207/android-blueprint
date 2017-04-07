@@ -8,5 +8,4 @@ package com.quangnguyen.androidblueprint;
 public interface BasePresenter {
 
     void start();
-
 }

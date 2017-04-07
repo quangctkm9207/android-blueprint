@@ -15,27 +15,26 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MainScreenPresenter implements MainScreenContract.Presenter {
 
-    private MessageRepository mRepository;
-    private MainScreenContract.View mView;
+    private MessageRepository repository;
+    private MainScreenContract.View view;
 
     public MainScreenPresenter(@NonNull MessageRepository repository, @NonNull MainScreenContract.View view) {
-        mRepository = checkNotNull(repository);
-        mView = checkNotNull(view);
-
-        mView.setPresenter(this);
+        this.repository = checkNotNull(repository);
+        this.view = checkNotNull(view);
+        // Attaches presenter to view
+        view.setPresenter(this);
     }
 
     @Override
     public void start() {
-
     }
 
     @Override
     public void loadMessage() {
-        mRepository.getMessage(new MessageDataSource.LoadMessageCallback() {
+        repository.getMessage(new MessageDataSource.LoadMessageCallback() {
             @Override
             public void onMessageLoaded(Message message) {
-                mView.showMessage(message);
+                view.showMessage(message);
             }
         });
     }
