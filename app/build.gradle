@@ -5,71 +5,105 @@ def versionMajor = 0
 def versionMinor = 1
 def versionPatch = 0
 
+// Signing properties
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def keyAliasValue = properties.getProperty("keyAlias")
+def keyPasswordValue = properties.getProperty("keyPassword")
+def storePasswordValue = properties.getProperty("storePassword")
+def storeFilePath = rootProject.file('keystore/release-keystore.jks') //Put key there
+
 android {
-    compileSdkVersion rootProject.ext.targetSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+  compileSdkVersion rootProject.ext.targetSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
-    defaultConfig {
-        applicationId "com.quangnguyen.androidblueprint"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+  defaultConfig {
+    applicationId "com.quangnguyen.androidblueprint"
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+    versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch * 100
+    versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-    }
-    buildTypes {
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+  }
 
-    // Always show the result of every unit test, even if it passes.
-    testOptions.unitTests.all {
-        testLogging {
-            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
-        }
+  signingConfigs {
+    release {
+      keyAlias keyAliasValue
+      keyPassword keyPasswordValue
+      storeFile storeFilePath
+      storePassword storePasswordValue
+      v2SigningEnabled false
     }
+  }
+
+  buildTypes {
+    debug {
+      minifyEnabled false
+      applicationIdSuffix '.debug'
+      versionNameSuffix '-DEBUG'
+    }
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+      signingConfig signingConfigs.release
+    }
+  }
+
+  // Always show the result of every unit test, even if it passes.
+  testOptions.unitTests.all {
+    testLogging {
+      events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+    }
+  }
 }
 
 dependencies {
-    // Support libraries
-    compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    compile "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
-    compile "com.android.support:design:$rootProject.supportLibraryVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
-    compile "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
-    compile "com.google.guava:guava:$rootProject.guavaVersion"
+  // Support libraries
+  compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+  compile "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
+  compile "com.android.support:design:$rootProject.supportLibraryVersion"
+  compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
+  compile "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
+  compile "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
 
-    // Local Unit Test libraries
-    testCompile "junit:junit:$rootProject.ext.junitVersion"
-    testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
-    testCompile "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
+  compile 'com.jakewharton.timber:timber:4.1.2'
+  compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
+  annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
+  // Dagger
+  compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+  provided 'org.glassfish:javax.annotation:10.0-b28'
+  annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
-    // Android Testing Support Library's runner and rules
-    androidTestCompile "com.android.support.test:runner:$rootProject.ext.runnerVersion"
-    androidTestCompile "com.android.support.test:rules:$rootProject.ext.runnerVersion"
+  // RxJava
+  compile "io.reactivex.rxjava2:rxjava:$rootProject.rxJavaVersion"
+  compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
 
-    // Android Unit Test libraries
-    androidTestCompile "junit:junit:$rootProject.ext.junitVersion"
-    androidTestCompile "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+  // Local Unit Test
+  testCompile "junit:junit:$rootProject.ext.junitVersion"
+  testCompile "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
+  testCompile "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
 
-    // Espresso UI Testing
-    androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"
-    androidTestCompile "com.android.support.test.espresso:espresso-intents:$rootProject.espressoVersion"
+  // Android Testing Support Library's runner and rules
+  androidTestCompile "com.android.support.test:runner:$rootProject.ext.runnerVersion"
+  androidTestCompile "com.android.support.test:rules:$rootProject.ext.runnerVersion"
 
-    // Resolve conflicts between main and test APK:
-    androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
-    androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
-    androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
+  // Android Unit Test libraries
+  androidTestCompile "junit:junit:$rootProject.ext.junitVersion"
+  androidTestCompile "org.mockito:mockito-android:$rootProject.ext.mockitoVersion"
+  androidTestCompile "com.linkedin.dexmaker:dexmaker:$rootProject.ext.dexmakerVersion"
+  androidTestCompile "com.linkedin.dexmaker:dexmaker-mockito:$rootProject.ext.dexmakerVersion"
+
+  // Espresso UI Testing
+  androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+  androidTestCompile "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+  androidTestCompile "com.android.support.test.espresso:espresso-intents:$rootProject.espressoVersion"
+
+  // Resolve conflicts between main and test APK:
+  androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+  androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+  androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+  androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+  androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
 }
