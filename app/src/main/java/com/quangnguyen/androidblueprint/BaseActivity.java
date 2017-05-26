@@ -8,21 +8,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import static android.os.Build.VERSION_CODES.N;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by Quang Nguyen on 3/17/17.
  *
  */
-
 public class BaseActivity extends AppCompatActivity {
 
     /**
      * Setups the fragment
      */
     public void startFragment(@NonNull Fragment fragment, int containerId) {
-        checkNotNull(fragment);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(containerId, fragment);
@@ -33,7 +29,6 @@ public class BaseActivity extends AppCompatActivity {
      * Setups tool bar
      */
     public void setupToolbar(@NonNull Toolbar toolbar) {
-        checkNotNull(toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

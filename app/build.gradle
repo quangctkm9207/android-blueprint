@@ -71,6 +71,7 @@ dependencies {
   compile 'com.jakewharton.timber:timber:4.1.2'
   compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
   annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
+
   // Dagger
   compile "com.google.dagger:dagger:$rootProject.daggerVersion"
   provided 'org.glassfish:javax.annotation:10.0-b28'
@@ -92,8 +93,6 @@ dependencies {
   // Android Unit Test libraries
   androidTestCompile "junit:junit:$rootProject.ext.junitVersion"
   androidTestCompile "org.mockito:mockito-android:$rootProject.ext.mockitoVersion"
-  androidTestCompile "com.linkedin.dexmaker:dexmaker:$rootProject.ext.dexmakerVersion"
-  androidTestCompile "com.linkedin.dexmaker:dexmaker-mockito:$rootProject.ext.dexmakerVersion"
 
   // Espresso UI Testing
   androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"

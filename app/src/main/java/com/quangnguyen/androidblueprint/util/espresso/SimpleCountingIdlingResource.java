@@ -16,11 +16,10 @@
 
 package com.quangnguyen.androidblueprint.util.espresso;
 
+import android.support.annotation.NonNull;
 import android.support.test.espresso.IdlingResource;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An simple counter implementation of {@link IdlingResource} that determines idleness by
@@ -45,8 +44,8 @@ public final class SimpleCountingIdlingResource implements IdlingResource {
      *
      * @param resourceName the resource name this resource should report to Espresso.
      */
-    public SimpleCountingIdlingResource(String resourceName) {
-        this.resourceName = checkNotNull(resourceName);
+    public SimpleCountingIdlingResource(@NonNull String resourceName) {
+        this.resourceName = resourceName;
     }
 
     @Override
